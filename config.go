@@ -26,7 +26,7 @@ func newSessionStore() *sessions.CookieStore {
 	store.Options.Path = "/"
 	store.Options.HttpOnly = true
 	store.Options.Secure = true
-	store.Options.SameSite = http.SameSiteLaxMode // todo: change to strict
+	store.Options.SameSite = http.SameSiteLaxMode
 
 	return store
 }
