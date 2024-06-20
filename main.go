@@ -31,7 +31,8 @@ func main() {
 
 	router.HandleFunc("/login", loginHandler)
 	router.HandleFunc("/login/callback", loginCallbackHandler)
-	router.HandleFunc("/test", testHandler)
+	// using router.Handle to use route specific middleware
+	router.Handle("/check", AuthenticatedRoute(http.HandlerFunc(checkHandler)))
 
 	server := http.Server{
 		Addr:    ":" + port,
