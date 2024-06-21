@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func AuthenticatedRoute(next http.Handler) http.Handler {
+func AuthenticatedRoute(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		session, _ := store.Get(r, sessionName)
 		user, ok := session.Values[sessionUserKey].(User)

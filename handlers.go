@@ -87,6 +87,16 @@ func loginCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/check", http.StatusPermanentRedirect)
 }
 
+func logoutHandler(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, sessionName)
+
+	session.Options.MaxAge = -1
+	session.Save(r, w)
+
+	w.Header().Set("Content-Type", "text/html")
+	w.Write([]byte("<h1>successfully logged out</h1>"))
+}
+
 // authenticated route
 func checkHandler(w http.ResponseWriter, r *http.Request) {
 	// get user from context (stored by AuthenticatedRoute middleware)
@@ -97,7 +107,7 @@ func checkHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html")
-	msg := `<h1>Welcome %s</h1> <p>Your id is <code>%d</code></p> <img src="%s">`
+	msg := `<h1>Welcome %s</h1> <p>Your id is <code>%d</code></p> <img src="%s" height="200" width="200">`
 	w.Write([]byte(fmt.Sprintf(msg, user.Username, user.Id, user.AvatarUrl)))
 }
 
